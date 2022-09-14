@@ -10,14 +10,14 @@ const generateProducts = () => {
 	for (let i = 0; i < products.length; i++) {
 		/* Creating an image element with the source and alt text from the products array. */
 		const image = createElementFactory("img", {
-			src: products[i].imageUrl,
-			alt: products[i].altTxt,
+			"src": products[i].imageUrl,
+			"alt": products[i].altTxt,
 		});
 
 		/* Creating a h3 element with the class productName and the name of the product. */
 		const name = createElementFactory(
 			"h3",
-			{ class: "productName" },
+			{ "class": "productName" },
 			products[i].name
 		);
 
@@ -25,7 +25,7 @@ const generateProducts = () => {
 		const description = createElementFactory(
 			"p",
 			{
-				class: "productDescription",
+				"class": "productDescription",
 			},
 			products[i].description
 		);
@@ -42,7 +42,7 @@ const generateProducts = () => {
 		/* Creating a link to the product page. */
 		const item = createElementFactory(
 			"a",
-			{ href: `./product.html?id=${products[i]._id}` },
+			{ "href": `./product.html?id=${products[i]._id}` },
 			article
 		);
 

@@ -75,9 +75,9 @@ const addSelectedProductToCart = (selectedProduct) => {
 const addToCart = () => {
 	/* It's creating an object with the product's information. */
 	let selectedProduct = {
-		id: productId,
-		color: productColors.value,
-		quantity: quantitySelected.value,
+		"_id": productId,
+		"color": productColors.value,
+		"quantity": quantitySelected.value,
 	};
 
 	if (selectedProduct.color === "") {
