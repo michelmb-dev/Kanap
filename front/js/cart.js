@@ -1,6 +1,8 @@
 import {createElementFactory, fetchApi} from "./utils.js";
 
 const cartItems = document.querySelector("#cart__items");
+const totalQuantity = document.querySelector("#totalQuantity");
+const totalPrice = document.querySelector("#totalPrice");
 
 /* Fetching the products from the database. */
 const productsApi = await fetchApi("http://localhost:3000/api/products/", "GET"
@@ -67,6 +69,10 @@ const generateCartItems = () => {
 			cartItems.appendChild(article);
 		}
 	}
+
+	/* It's setting the innerHTML of the totalQuantity element to the value of the calculateTotalQuantity function. */
+	totalQuantity.innerHTML = calculateTotalQuantity();
+	totalPrice.innerHTML = calculateTotalPrice();
 };
 
 /**
@@ -81,16 +87,20 @@ const calculateTotalQuantity = () => {
 	return sum.toString();
 }
 
-const totalQuantity = document.querySelector("#totalQuantity");
-/* It's setting the innerHTML of the totalQuantity element to the value of the calculateTotalQuantity function. */
-totalQuantity.innerHTML = calculateTotalQuantity();
-
-
+/**
+ * It loops through the filteredProducts array, and adds the price of each product to the sum variable
+ * @returns The total price of all the products in the filteredProducts array.
+ */
+const calculateTotalPrice = () => {
+	let sum = 0;
+	for(let i = 0; i < filteredProducts.length ; i++) {
+		sum += (Number(filteredProducts[i].price) * Number(filteredProducts[i].quantity));
+	}
+	return sum.toString();
+}
 
 
 /* It's creating a cart item for each product in the filteredProducts array */
 generateCartItems();
 
-/* It's calculating the total quantity of all the products in the cart. */
-calculateTotalQuantity();
 
