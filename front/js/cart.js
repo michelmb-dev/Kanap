@@ -1,12 +1,11 @@
-import {createElementFactory, fetchApi} from "./utils.js";
+import {createElementFactory, fetchApi, generateShowError} from "./utils.js";
 
 const cartItems = document.querySelector("#cart__items");
 const totalQuantity = document.querySelector("#totalQuantity");
 const totalPrice = document.querySelector("#totalPrice");
 
 /* Fetching the products from the database. */
-const productsApi = await fetchApi("http://localhost:3000/api/products/", "GET"
-);
+const productsApi = await fetchApi("http://localhost:3000/api/products/","GET");
 
 /* Getting the cart from localStorage and parsing it into an array. */
 const productsInStore = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -16,8 +15,8 @@ const productsInStore = JSON.parse(localStorage.getItem("cart") || "[]");
 let filteredProducts = [];
 
 /* Filtering through the products in the cart and the products in the database and matching them up. */
-productsInStore.filter((productInStore) => {
-	productsApi.filter((productApi) => {
+productsInStore.forEach((productInStore) => {
+	productsApi.forEach((productApi) => {
 			if(productInStore._id === productApi._id) {
 				filteredProducts.push({
 					"_id": productInStore._id,
@@ -32,15 +31,12 @@ productsInStore.filter((productInStore) => {
 	});
 });
 
-
-
 /**
  * It's creating a cart item for each product in the filteredProducts array
  */
 const generateCartItems = () => {
 	if (filteredProducts.length === 0) {
-		const emptyCart = createElementFactory('h3', {style: "text-align: center"}, "Votre panier et vide.");
-		cartItems.appendChild(emptyCart);
+			generateShowError(cartItems, "Votre panier et vide.")
 	} else {
 		for (let i = 0; i < filteredProducts.length; i++) {
 

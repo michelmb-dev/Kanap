@@ -1,21 +1,32 @@
 
-
-
-
 /**
- * It fetches a URL and returns the JSON response
- * @param url - The URL to fetch from.
+ * It returns a promise that resolves to the JSON response of a fetch request
+ * @param url - The url to fetch from.
  * @param method - The HTTP method to use, such as GET, POST, PUT, DELETE, etc.
- * @returns The response from the API call.
+ * @returns A promise that resolves to a JSON object.
  */
-export const fetchApi = async (url, method) => {
-	const response = await fetch(url, { method: method });
-	if (!response.ok) {
-		throw new Error("Fetch server on " + url + " Status: " + response.status + " " + response.statusText);
-	}
-	return await response.json();
+export const fetchApi = (url, method) => {
+	return new Promise((res, rej) => {
+		fetch(url, {method: method})
+			.then(response => {
+				if (response.ok) {
+					res(response.json());
+				}
+			}).catch(error => rej(error));
+	}).catch(error => console.error(error));
 };
 
+/**
+ * It takes a parent element and a message, creates an h3 element with the message, and appends it to the parent element
+ * @param parentElement - The element that the error message will be appended to.
+ * @param message - The message to display
+ * @returns A function that takes in a parentElement and a message and returns the parentElement with the message appended
+ * to it.
+ */
+export const generateShowError = (parentElement, message) =>	{
+	const el = createElementFactory('h3', {"style": "text-align: center; max-width: 420px; margin: 20px auto"}, message)
+	return parentElement.appendChild(el);
+}
 
 /**
  * It takes an element name, an object of attributes, and an array of children, and returns a DOM element
