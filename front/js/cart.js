@@ -1,40 +1,47 @@
 import {createElementFactory, fetchApi, generateShowError} from "./utils.js";
 
+
+/* It's selecting the elements that will be used in the script. */
 const cartItems = document.querySelector("#cart__items");
 const totalQuantity = document.querySelector("#totalQuantity");
 const totalPrice = document.querySelector("#totalPrice");
 
+
 /* Fetching the products from the database. */
 const productsApi = await fetchApi("http://localhost:3000/api/products/","GET");
 
+
 /* Getting the cart from localStorage and parsing it into an array. */
-const productsInStore = JSON.parse(localStorage.getItem("cart") || "[]");
+let productsInStore = JSON.parse(localStorage.getItem("cart") || "[]");
 
 
 /* Creating an empty array to store the filtered products. */
 let filteredProducts = [];
 
+
 /* Filtering through the products in the cart and the products in the database and matching them up. */
 productsInStore.forEach((productInStore) => {
 	productsApi.forEach((productApi) => {
-			if(productInStore._id === productApi._id) {
-				filteredProducts.push({
-					"_id": productInStore._id,
-					"name": productApi.name,
-					"imageUrl": productApi.imageUrl,
-					"altTxt": productApi.altTxt,
-					"price": productApi.price,
-					"color": productInStore.color,
-					"quantity": productInStore.quantity
-				});
-			}
+		if(productInStore._id === productApi._id) {
+			filteredProducts.push({
+				"_id": productInStore._id,
+				"name": productApi.name,
+				"imageUrl": productApi.imageUrl,
+				"altTxt": productApi.altTxt,
+				"price": productApi.price,
+				"color": productInStore.color,
+				"quantity": productInStore.quantity
+			});
+		}
 	});
 });
+
 
 /**
  * It's creating a cart item for each product in the filteredProducts array
  */
-const generateCartItems = () => {
+const generateProductsToCart = () => {
+
 	if (filteredProducts.length === 0) {
 			generateShowError(cartItems, "Votre panier et vide.")
 	} else {
@@ -71,6 +78,7 @@ const generateCartItems = () => {
 	totalPrice.innerHTML = calculateTotalPrice();
 };
 
+
 /**
  * It loops through the filteredProducts array, and adds the quantity of each product to a sum variable
  * @returns The total quantity of all the products in the filteredProducts array.
@@ -82,6 +90,7 @@ const calculateTotalQuantity = () => {
 	}
 	return sum.toString();
 }
+
 
 /**
  * It loops through the filteredProducts array, and adds the price of each product to the sum variable
@@ -96,7 +105,45 @@ const calculateTotalPrice = () => {
 }
 
 
-/* It's creating a cart item for each product in the filteredProducts array */
-generateCartItems();
+/**
+ * It's deleting the product from the cart.
+ */
+const deleteProductToCart = () => {
+
+	/* It's selecting all the elements with a class of deleteItem. */
+	const deleteButton = document.querySelectorAll(".deleteItem");
+
+	/* It's looping through the filteredProducts array. */
+	for (let i = 0; i < filteredProducts.length; i++) {
+
+		deleteButton[i].addEventListener('click',  (e) => {
+
+			/* It's asking the user if he wants to delete the product. */
+			if(!confirm('Voulez-vous vraiment supprimer cet article ?')){
+				return;
+			}
+			/* It's filtering through the productsInStore array and removing the product that has the same id and color as the
+			product that was clicked. */
+			let updateProductInStore = productsInStore.filter(product => product._id !== productsInStore[i]._id || product.color !== productsInStore[i].color);
+
+			/* Update the cart in localStorage to the productsInStore array. */
+			localStorage.setItem("cart", JSON.stringify(updateProductInStore));
+
+			/* It's removing the price and quantity of the product that was deleted from the total price and quantity. */
+			totalPrice.innerHTML -= Number(filteredProducts[i].price).toString();
+			totalQuantity.innerHTML -= Number(filteredProducts[i].quantity).toString();
+
+			/* It's removing the product from the cart. */
+			cartItems.children[i].remove();
+
+		});
+	}
+};
 
 
+/* It's creating a cart item for each product in the filteredProducts array. */
+generateProductsToCart();
+
+
+/* It's deleting a product from the cart. */
+deleteProductToCart();
