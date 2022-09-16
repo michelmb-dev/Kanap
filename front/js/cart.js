@@ -130,12 +130,41 @@ const deleteProductToCart = () => {
 			localStorage.setItem("cart", JSON.stringify(updateProductInStore));
 
 			/* It's removing the price and quantity of the product that was deleted from the total price and quantity. */
-			totalPrice.innerHTML -= Number(filteredProducts[i].price).toString();
+			totalPrice.innerHTML -= Number(filteredProducts[i].price * filteredProducts[i].quantity) .toString();
 			totalQuantity.innerHTML -= Number(filteredProducts[i].quantity).toString();
 
 			/* It's removing the product from the cart. */
 			cartItems.children[i].remove();
 
+			/* It's updating the productsInStore array with the new cart. */
+			productsInStore = JSON.parse(localStorage.getItem('cart') || "[]");
+
+			/* It's checking if the cart is empty, and if it is, it's displaying a message to the user. */
+			if(productsInStore.length === 0) {
+				generateShowError(cartItems, "Votre panier est vide.")
+			}
+
+		});
+	}
+};
+
+
+/**
+ * It adds an event listener to each input field in the cart, and when the value of the input field changes, it updates the
+ * quantity of the product in the cart
+ */
+const changeProductQuantityToCart = () => {
+	const inputQuantity = document.querySelectorAll(".itemQuantity");
+	for (let i = 0; i < filteredProducts.length; i++) {
+		inputQuantity[i].addEventListener('change', (e) => {
+			if (e.target.value < 1 || e.target.value > 100) {
+				alert('Veuillez saisir une quantité entre 1 et 100.');
+				return;
+			}
+			filteredProducts[i].quantity = e.target.value;
+			localStorage.setItem("cart", JSON.stringify(filteredProducts));
+			totalQuantity.innerHTML = calculateTotalQuantity();
+			totalPrice.innerHTML = calculateTotalPrice();
 		});
 	}
 };
@@ -144,6 +173,8 @@ const deleteProductToCart = () => {
 /* It's creating a cart item for each product in the filteredProducts array. */
 generateProductsToCart();
 
+/* It's changing the quantity of the product in the cart. */
+changeProductQuantityToCart();
 
 /* It's deleting a product from the cart. */
 deleteProductToCart();
