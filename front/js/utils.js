@@ -1,13 +1,15 @@
 
+
+
 /**
- * It returns a promise that resolves to the JSON response of a fetch request
- * @param url - The url to fetch from.
- * @param method - The HTTP method to use, such as GET, POST, PUT, DELETE, etc.
- * @returns A promise that resolves to a JSON object.
+ * It returns a promise that resolves to a JSON object
+ * @param url - The URL to fetch.
+ * @param options - This is an object that contains the request method, headers, and body.
+ * @returns A promise that will resolve to a JSON object.
  */
-export const fetchApi = (url, method) => {
+export const fetchApi = (url, options) => {
 	return new Promise((res, rej) => {
-		fetch(url, {method: method})
+		fetch(url, options)
 			.then(response => {
 				if (response.ok) {
 					res(response.json());

@@ -14,7 +14,7 @@ const submitToCart = document.querySelector("#addToCart");
 
 const product = await fetchApi(
 	`http://localhost:3000/api/products/${productId}`,
-	"GET"
+	{method: "GET"}
 );
 
 /**

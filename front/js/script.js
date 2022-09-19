@@ -6,7 +6,7 @@ const items = document.querySelector("#items");
 
 
 /* Fetching the products from the API. */
-const products = await fetchApi("http://localhost:3000/api/products", "GET");
+const products = await fetchApi("http://localhost:3000/api/products", {method: 'GET'});
 
 
 /**
