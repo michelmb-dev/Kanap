@@ -26,7 +26,7 @@ export const fetchApi = (url, options) => {
  * to it.
  */
 export const generateShowError = (parentElement, message) =>	{
-	const el = createElementFactory('h3', {"style": "text-align: center; max-width: 420px; margin: 20px auto"}, message)
+	const el = createElementFactory('h3', {"style": "text-align: center; color: #fbbcbc; max-width: 420px; margin: 20px auto"}, message)
 	return parentElement.appendChild(el);
 }
 
