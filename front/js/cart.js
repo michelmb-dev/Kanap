@@ -179,8 +179,14 @@ const changeProductQuantityToCart = () => {
 	for (let i = 0; i < filteredProducts.length; i++) {
 		inputQuantity[i].addEventListener('change', (e) => {
 			if (e.target.value < 1 || e.target.value > 100) {
+
+				if(e.target.value < 1){
+					e.target.value = 1
+				}
+				if(e.target.value > 100) {
+					e.target.value = 100
+				}
 				alert('Veuillez saisir une quantité entre 1 et 100.');
-				return;
 			}
 			filteredProducts[i].quantity = e.target.value;
 			localStorage.setItem("cart", JSON.stringify(filteredProducts));

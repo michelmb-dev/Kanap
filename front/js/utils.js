@@ -1,6 +1,3 @@
-
-
-
 /**
  * It returns a promise that resolves to a JSON object
  * @param url - The URL to fetch.
@@ -18,6 +15,7 @@ export const fetchApi = (url, options) => {
 	}).catch(error => console.error(error));
 };
 
+
 /**
  * It takes a parent element and a message, creates an h3 element with the message, and appends it to the parent element
  * @param parentElement - The element that the error message will be appended to.
@@ -29,6 +27,7 @@ export const generateShowError = (parentElement, message) =>	{
 	const el = createElementFactory('h3', {"style": "text-align: center; color: #fbbcbc; max-width: 420px; margin: 20px auto"}, message)
 	return parentElement.appendChild(el);
 }
+
 
 /**
  * It takes an element name, an object of attributes, and an array of children, and returns a DOM element
