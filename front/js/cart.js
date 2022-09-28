@@ -215,9 +215,10 @@ const validateOrderForm = () => {
 	/* It's checking if the value of the firstNameInput element matches the nameRegex regular expression. */
 	if(!firstNameInput.value.match(nameRegex)) {
 		isValid = false;
-		firstNameErrorMsg.innerHTML = "Veuillez saisir un nom valide (Entre 3 et 30 caractères).";
+		firstNameErrorMsg.innerHTML = "Veuillez saisir un prénom valide (Entre 3 et 30 caractères).";
 	} else {
 		firstNameErrorMsg.innerHTML = "";
+		isValid = true;
 	}
 
 	/* It's checking if the value of the lastNameInput element matches the nameRegex regular expression. */
@@ -226,6 +227,7 @@ const validateOrderForm = () => {
 		lastNameErrorMsg.innerHTML = "Veuillez saisir un nom valide (Entre 3 et 30 caractères).";
 	} else {
 		lastNameErrorMsg.innerHTML = "";
+		isValid = true;
 	}
 
 	/* It's checking if the value of the addressFormInput element matches the addressRegex regular expression. */
@@ -234,6 +236,7 @@ const validateOrderForm = () => {
 		addressFormErrorMsg.innerHTML = "Veuillez saisir une adresse valide (ex : 1 av de paris)."
 	}else {
 		addressFormErrorMsg.innerHTML = "";
+		isValid = true;
 	}
 
 	/* It's checking if the value of the cityFormInput element matches the cityRegex regular expression. */
@@ -242,6 +245,7 @@ const validateOrderForm = () => {
 		cityFormErrorMsg.innerHTML = "Veuillez saisir le nom d'une ville valide (ex : Paris, Lille ...)."
 	}else {
 		cityFormErrorMsg.innerHTML = "";
+		isValid = true;
 	}
 
 	/* It's checking if the value of the emailFormInput element matches the emailRegex regular expression. */
@@ -250,6 +254,7 @@ const validateOrderForm = () => {
 		emailFormErrorMsg.innerHTML = "Veuillez saisir une adresse email valide (ex : example@test.com)."
 	} else {
 		emailFormInput.innerHTML = "";
+		isValid = true;
 	}
 	return isValid;
 }
