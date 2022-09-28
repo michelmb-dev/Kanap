@@ -72,6 +72,11 @@ const addSelectedProductToCart = (selectedProduct) => {
 	}
 };
 
+
+/**
+ * It's creating an object with the product's information and adding it to the cart
+ * @returns the product's information.
+ */
 const addToCart = () => {
 	/* It's creating an object with the product's information. */
 	let selectedProduct = {
